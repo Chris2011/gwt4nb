@@ -285,25 +285,25 @@ public class Gwt4nbModule extends ModuleInstall {
                 //escape secondary src var (always starts with $)
                 String append = "\\" + name;
                 //find any occurance of ${src.dir} followed by ':' path separator
-                patterns.add("(" + srcDir + ")\\:"); 
+                patterns.add("(" + srcDir + ")\\:");
                 //append secondary source path right after the primary one
-                replace.add("$1:" + append + ":"); 
+                replace.add("$1:" + append + ":");
                 //find any ${src.dir}" preceeded by ':' path separator
-                patterns.add("\\:(" + srcDir + ")\""); 
+                patterns.add("\\:(" + srcDir + ")\"");
                 //append secondary source path right after the primary one
-                replace.add(":$1:" + append + "\""); 
-                //find any <pathelement path="${src.dir}"/> element 
+                replace.add(":$1:" + append + "\"");
+                //find any <pathelement path="${src.dir}"/> element
                 patterns.add("(?s)(\\s*<pathelement path=\")(" + srcDir + ")(\"\\/>)");
                 //append the <pathelement> for the additional source on the next line
                 replace.add("$1$2$3$1" + append + "$3");
                 //find any <srcfiles path="${src.dir}">...</srcfiles>
-                patterns.add("(?s)(\\s*<srcfiles dir=\")(" + srcDir + ")(\">.*?<\\/srcfiles>)"); 
+                patterns.add("(?s)(\\s*<srcfiles dir=\")(" + srcDir + ")(\">.*?<\\/srcfiles>)");
                 //append the <srcfile> for the additional source on the next line(s)
                 replace.add("$1$2$3$1" + append + "$3");
             }
             patterns.add("__PROJECT_NAME__");
             replace.add(projectName);
-            
+
             // COPY build-gwt.xml
             FileObject buildGwt = nbprj.getFileObject(
                     GWTProjectInfo.BUILD_GWT);

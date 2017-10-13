@@ -34,12 +34,12 @@ public class CompilerPanel extends SectionInnerPanel {
 
     private GwtXmlDataObject dObj;
     private DefaultTableModel TableModuleDefineLinker = new DefaultTableModel(
-            new String[]{NbBundle.getMessage(CompilerPanel.class, 
+            new String[]{NbBundle.getMessage(CompilerPanel.class,
             "NAME"),  // NOI18N
             NbBundle.getMessage(CompilerPanel.class,
             "CLASS")}, 0); // NOI18N
     private DefaultTableModel TableModuleAddLinker = new DefaultTableModel(
-            new String[]{NbBundle.getMessage(CompilerPanel.class, 
+            new String[]{NbBundle.getMessage(CompilerPanel.class,
             "NAME")}, 0); // NOI18N
 
     /** Creates new form CompilerPanel */
@@ -69,7 +69,7 @@ public class CompilerPanel extends SectionInnerPanel {
             TableModuleAddLinker.addRow(new String[]{addLinkerName});
         }
 
-        
+
         //TableModuleDefineLinker listener
         TableModuleDefineLinker.addTableModelListener(new TableModelListener() {
 
@@ -254,7 +254,7 @@ public class CompilerPanel extends SectionInnerPanel {
                         .add(jButtonDefinedLinkersAdd)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(jButtonDefinedLinkersRemove))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1))
                 .addContainerGap())
         );
         jPanelDefinedLinkersModulesLayout.setVerticalGroup(
@@ -310,7 +310,7 @@ public class CompilerPanel extends SectionInnerPanel {
                         .add(jButtonAddLinkersAdd)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(jButtonAddLinkersRemove))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelAddLinkersModulesLayout.setVerticalGroup(
@@ -327,14 +327,11 @@ public class CompilerPanel extends SectionInnerPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jPanelAddLinkersModules, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(20, 20, 20)
-                        .add(jPanelDefinedLinkersModules, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanelDefinedLinkersModules, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jPanelAddLinkersModules, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

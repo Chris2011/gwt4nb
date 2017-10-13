@@ -36,7 +36,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import org.netbeans.api.java.classpath.ClassPath;
 import org.netbeans.api.java.project.JavaProjectConstants;
 import org.netbeans.api.project.Project;
@@ -168,7 +167,7 @@ public class XSDCatalog implements CatalogReader, CatalogDescriptor,
 
         return null;
     }
-    
+
     private static File createXSD(String originalPackagePath, List<String> elements) throws FileNotFoundException, IOException {
         File xsd = File.createTempFile("package", "xsd");
         Logger.getLogger(XSDCatalog.class.getName()).log(Level.INFO,
@@ -209,13 +208,13 @@ public class XSDCatalog implements CatalogReader, CatalogDescriptor,
 
         return xsd;
     }
-    
+
     /**
      * Create a XSD schema from package
      */
     private File createXSD(String packagePath) {
         packagePath = packagePath.split(":")[2].split("\\?")[0];
-        
+
         String originalPackagePath = packagePath;
         packagePath = packagePath.replaceAll("\\.", "\\/");
         for (Project p : OpenProjects.getDefault().getOpenProjects()) {
@@ -271,7 +270,7 @@ public class XSDCatalog implements CatalogReader, CatalogDescriptor,
         }
         return null;
     }
-    
+
     public static Set<String> getClasses(String packageName, InputStream is)
             throws ClassNotFoundException, FileNotFoundException, IOException {
         HashSet<String> set = new HashSet<String>();
@@ -286,7 +285,7 @@ public class XSDCatalog implements CatalogReader, CatalogDescriptor,
             if (jarEntry == null) {
                 break;
             }
-                
+
             String entryName = jarEntry.getName();
             if ((entryName.startsWith(packageName))
                     && (entryName.endsWith(".class")) &&
