@@ -55,6 +55,7 @@ import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gwt4nb.GWT4NBUtil;
 import org.netbeans.modules.gwt4nb.GWTProjectInfo;
+import static org.netbeans.modules.gwt4nb.hints.Bundle.ERR_UnsupportedClass;
 import org.netbeans.spi.editor.hints.ErrorDescription;
 import org.netbeans.spi.editor.hints.Fix;
 import org.netbeans.spi.editor.hints.Severity;
@@ -69,7 +70,6 @@ import org.openide.filesystems.URLMapper;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle.Messages;
 
-import static org.netbeans.modules.gwt4nb.hints.Bundle.*;
 
 /**
  * Hints classes unsupported by GWT.

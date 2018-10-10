@@ -32,27 +32,31 @@ import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
-import static org.netbeans.modules.gwt4nb.services.Bundle.*;
+import static org.netbeans.modules.gwt4nb.services.Bundle.error_CannotCreateSvc;
+import static org.netbeans.modules.gwt4nb.services.Bundle.error_FileExists;
+import static org.netbeans.modules.gwt4nb.services.Bundle.error_InvIdServiceName;
+import static org.netbeans.modules.gwt4nb.services.Bundle.error_InvIdServiceSubPackage;
+import static org.netbeans.modules.gwt4nb.services.Bundle.error_nomodule;
 import org.openide.util.NbBundle.Messages;
 
 /**
  * Controller for the "GWT RPC Service"
- * 
+ *
  * @author Tomasz.Slota@Sun.COM
  * @author benno.markiewicz@googlemail.com (contributor)
  */
-public class NewServicePanel implements 
+public class NewServicePanel implements
         WizardDescriptor.Panel<WizardDescriptor>,
         WizardDescriptor.FinishablePanel<WizardDescriptor> {
-    
+
     private Project project;
     private NewServicePanelVisual component;
     private WizardDescriptor wizardDescriptor;
 
     /** directory for the client package or null if it does not exist */
     private FileObject foClientPckg;
-    
-    /** 
+
+    /**
      * Creates a new instance of NewServicePanel
      */
     public NewServicePanel(Project project) {
@@ -71,32 +75,32 @@ public class NewServicePanel implements
             foClientPckg = null;
         }
     }
-    
+
     @Override
     public Component getComponent() {
         if (component == null){
             component = new NewServicePanelVisual(this);
         }
-        
+
         return component;
     }
-    
+
     public Project getProject(){
         return project;
     }
-    
+
     @Override
     public HelpCtx getHelp() {
         return new HelpCtx(NewServicePanel.class);
     }
-    
+
     @Override
     public void readSettings(WizardDescriptor settings) {
         wizardDescriptor = settings;
         wizardDescriptor.putProperty("NewProjectWizard_Title",  // NOI18N
                 NbBundle.getMessage(NewServicePanel.class, "NewSvc")); // NOI18N
     }
-    
+
     @Override
     public void storeSettings(WizardDescriptor settings) {
         wizardDescriptor = settings;
@@ -104,14 +108,14 @@ public class NewServicePanel implements
                 component.getServiceName());
         wizardDescriptor.putProperty(NewServiceWizardIterator.SERVICE_SERVLET_MAPPING,
                 component.getServletMapping());
-        wizardDescriptor.putProperty(NewServiceWizardIterator.CREATE_USAGE_EXAMPLE, 
+        wizardDescriptor.putProperty(NewServiceWizardIterator.CREATE_USAGE_EXAMPLE,
                 component.createUsageExample());
         wizardDescriptor.putProperty(NewServiceWizardIterator.SERVICE_SUBPACKAGE,
                 component.getServiceSubpackage());
         wizardDescriptor.putProperty(NewServiceWizardIterator.MODULE_NAME_PROPERTY,
                 component.getModuleName());
     }
-    
+
     private boolean isFileFoundInChildren(FileObject parent, String fileName){
         for (FileObject tmp: parent.getChildren()){
             if (tmp.isFolder()) {
@@ -125,7 +129,7 @@ public class NewServicePanel implements
         }
         return false;
     }
-    
+
     @Messages(
             {
                 "error.nomodule=No module found",
@@ -176,23 +180,23 @@ public class NewServicePanel implements
 
         return true;
     }
-    
+
     private final Set<ChangeListener> listeners = new CopyOnWriteArraySet<ChangeListener>();
-    
+
     @Override
     public final void addChangeListener(final ChangeListener l) {
         if(l != null) {
             listeners.add(l);
         }
     }
-    
+
     @Override
     public final void removeChangeListener(final ChangeListener l) {
         if(l != null) {
             listeners.remove(l);
         }
     }
-    
+
     protected final void fireChangeEvent() {
         final ChangeEvent ev = new ChangeEvent(this);
 
@@ -200,7 +204,7 @@ public class NewServicePanel implements
             l.stateChanged(ev);
         }
     }
-    
+
     @Override
     public boolean isFinishPanel() {
         return true;

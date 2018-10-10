@@ -20,6 +20,10 @@ package org.netbeans.modules.gwt4nb.services.refactoring.ui;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 
@@ -31,29 +35,40 @@ import org.openide.util.actions.Presenter.Popup;
  *
  * @author Prem
  */
+@ActionID(id = "org.netbeans.modules.gwt4nb.services.refactoring.ui.ServiceRefactorAction", category = "Tools")
+@ActionRegistration(displayName = "LBL_ServiceRefactorAction", lazy = false)
+@ActionReferences(value = {
+    @ActionReference(path = "Editors/text/x-java/Popup"),
+    @ActionReference(path = "Loaders/text/x-java/Actions")}
+)
 public class ServiceRefactorAction extends SystemAction implements Menu, Popup {
     private static final long serialVersionUID = 1;
 
     private final SubMenuAction action = new SubMenuAction(false);
-    
+
+    @Override
     public void actionPerformed(ActionEvent ev) {
         // do nothing -- should never be called
     }
-    
+
+    @Override
     public String getName() {
-        return NbBundle.getMessage(ServiceRefactorAction.class, 
+        return NbBundle.getMessage(ServiceRefactorAction.class,
                 "SvcRef"); // NOI18N
     }
-    
+
+    @Override
     public HelpCtx getHelpCtx() {
         return HelpCtx.DEFAULT_HELP;
-        
+
     }
-    
+
+    @Override
     public JMenuItem getMenuPresenter() {
         return action.getMenuPresenter();
     }
-    
+
+    @Override
     public JMenuItem getPopupPresenter() {
         return action.getPopupPresenter();
     }

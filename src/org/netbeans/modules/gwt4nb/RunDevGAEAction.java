@@ -21,6 +21,9 @@ import org.apache.tools.ant.module.api.support.ActionUtils;
 import org.netbeans.api.project.Project;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.filesystems.FileLock;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
@@ -30,6 +33,10 @@ import org.openide.util.NbBundle;
 /**
  * Runs GWT dev mode and Google App Engine in the same JVM.
  */
+@ActionID(id = "org.netbeans.modules.gwt4nb.RunDevGAEAction", category = "Run")
+@ActionRegistration(displayName = "#RunGWTDevGAE", lazy = false)
+@ActionReference(path = "Projects/Actions", position = 500)
+@NbBundle.Messages("RunGWTDevGAE=Run GWT Dev Mode on Google App Engine")
 public final class RunDevGAEAction extends ProjectAction {
     private static final long serialVersionUID = 1;
 
@@ -40,10 +47,12 @@ public final class RunDevGAEAction extends ProjectAction {
         super(true);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         assert false;
     }
 
+    @Override
     protected boolean isEnabledFor(Project p) {
         assert p != null;
 
@@ -91,7 +100,7 @@ public final class RunDevGAEAction extends ProjectAction {
             }
             try {
                 properties.setProperty("appengine.agent", agent); // NOI18N
-                properties.store(propertiesFileWrite.getOutputStream(lock), 
+                properties.store(propertiesFileWrite.getOutputStream(lock),
                         ""); // NOI18N
 
             } finally {
@@ -124,7 +133,7 @@ public final class RunDevGAEAction extends ProjectAction {
         }
     }
     */
-    
+
     private boolean isAppEnginePluginUsed(Project p) {
         //Make sure we are using the Appengine plugin
         FileObject propertiesFile = p.getProjectDirectory().
@@ -151,14 +160,16 @@ public final class RunDevGAEAction extends ProjectAction {
         return isAppEngine;
     }
 
+    @Override
     protected String labelFor(Project p) {
         assert p != null;
-        
+
         // menu item label
-        return NbBundle.getMessage(RunDevGAEAction.class, 
+        return NbBundle.getMessage(RunDevGAEAction.class,
                 "RunGWTDevGAE"); // NOI18N
     }
 
+    @Override
     protected void perform(Project p) {
         assert p != null;
 
@@ -178,7 +189,7 @@ public final class RunDevGAEAction extends ProjectAction {
             } else {
                 FileObject propertiesFile = p.getProjectDirectory().
                 getFileObject("nbproject/project.properties"); // NOI18N
-                
+
                 Properties properties = new Properties();
                 try {
                     properties.load(propertiesFile.getInputStream());

@@ -18,9 +18,11 @@
  */
 package org.netbeans.modules.gwt4nb.services.refactoring.ui;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
@@ -33,59 +35,69 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.windows.TopComponent;
 
+@ActionID(id = "org.netbeans.modules.gwt4nb.services.refactoring.ui.ServiceDeleteAction", category = "Tools")
+@ActionRegistration(displayName = "#CTL_ServiceDeleteAction", lazy = false)
+@NbBundle.Messages("CTL_ServiceDeleteAction=Delete Service")
 public final class ServiceDeleteAction extends CookieAction {
     private static final long serialVersionUID = 1;
-    
+
+    @Override
     protected void performAction(Node[] activatedNodes) {
         ServiceRefactoringActionsProvider.doDelete(getLookup(activatedNodes));
     }
-    
+
+    @Override
     protected boolean enable(Node[] node)  {
         if (node==null || node.length<1){
             return false;
         }
         DataObject dataObject = node[0].getCookie(DataObject.class);
-        
+
         if (dataObject != null){
-            
+
             Project p = FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
-            if (p != null && org.netbeans.modules.gwt4nb.GWTProjectInfo.isGWTProject(p)) {                
+            if (p != null && org.netbeans.modules.gwt4nb.GWTProjectInfo.isGWTProject(p)) {
                 return ServiceRefactoringActionsProvider.canDelete(getLookup(node));
             }
         }
-        
+
     return false;
 }
 
+    @Override
     protected int mode() {
         return CookieAction.MODE_EXACTLY_ONE;
     }
-    
+
+    @Override
     public String getName() {
-        return NbBundle.getMessage(ServiceDeleteAction.class, 
-                "CTL_ServiceDeleteAction1"); // NOI18N
+        return NbBundle.getMessage(ServiceDeleteAction.class, "CTL_ServiceDeleteAction"); // NOI18N
     }
-    
+
+    @Override
     protected Class<?>[] cookieClasses() {
         return new Class<?>[] {
             Project.class
         };
     }
-    
+
+    @Override
     protected void initialize() {
         super.initialize();
         // see org.openide.util.actions.SystemAction.iconResource() javadoc for more details
         putValue("noIconInMenu", Boolean.TRUE); // NOI18N
     }
-    
+
+    @Override
     public HelpCtx getHelpCtx() {
         return HelpCtx.DEFAULT_HELP;
     }
-    
+
+    @Override
     protected boolean asynchronous() {
         return false;
     }
-    
+
     protected Lookup getLookup(Node[] n) {
         InstanceContent ic = new InstanceContent();
         for (Node node:n)
@@ -96,10 +108,10 @@ public final class ServiceDeleteAction extends CookieAction {
                 ic.add(tc);
             }
         }
-        ic.add(new Hashtable<Object, Object>(0));
+        ic.add(new HashMap<Object, Object>(0));
         return new AbstractLookup(ic);
     }
-    
+
     protected static EditorCookie getTextComponent(Node n) {
         DataObject dobj = n.getCookie(DataObject.class);
         if (dobj != null) {
@@ -113,6 +125,6 @@ public final class ServiceDeleteAction extends CookieAction {
         }
         return null;
     }
-    
+
 }
 

@@ -22,6 +22,8 @@ import java.util.Hashtable;
 import org.netbeans.api.project.FileOwnerQuery;
 import org.netbeans.api.project.Project;
 import org.netbeans.modules.gwt4nb.GWTProjectInfo;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionRegistration;
 import org.openide.cookies.EditorCookie;
 import org.openide.loaders.DataObject;
 import org.openide.nodes.Node;
@@ -34,19 +36,23 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 import org.openide.windows.TopComponent;
 
+@ActionID(id = "org.netbeans.modules.gwt4nb.services.refactoring.ui.ServiceRenameAction", category = "Tools")
+@ActionRegistration(displayName = "CTL_ServiceRenameAction", lazy = false)
 public final class ServiceRenameAction extends CookieAction {
     private static final long serialVersionUID = 1;
-    
+
+    @Override
     protected void performAction(Node[] activatedNodes) {
         ServiceRefactoringActionsProvider.doRename(getLookup(activatedNodes));
     }
-    
+
+    @Override
     protected boolean enable(Node[] node)  {
         if (node == null || node.length<1){
             return false;
         }
         DataObject dataObject = node[0].getCookie(DataObject.class);
-        
+
         if (dataObject != null){
             Project p = FileOwnerQuery.getOwner(dataObject.getPrimaryFile());
             if (p != null && GWTProjectInfo.isGWTProject(p)) {
@@ -54,45 +60,51 @@ public final class ServiceRenameAction extends CookieAction {
                         getLookup(node));
             }
         }
-        
+
         return false;
     }
 
+    @Override
     protected int mode() {
         return CookieAction.MODE_EXACTLY_ONE;
     }
-    
+
+    @Override
     public String getName() {
-        return NbBundle.getMessage(ServiceRenameAction.class, 
+        return NbBundle.getMessage(ServiceRenameAction.class,
                 "CTL_ServiceRenameAction"); // NOI18N
     }
-    
+
+    @Override
     protected Class<?>[] cookieClasses() {
         return new Class<?>[] {
             Project.class
         };
     }
-    
+
+    @Override
     protected void initialize() {
         super.initialize();
         // see org.openide.util.actions.SystemAction.iconResource() javadoc
         // for more details
         putValue("noIconInMenu", Boolean.TRUE); // NOI18N
     }
-    
+
+    @Override
     public HelpCtx getHelpCtx() {
         return HelpCtx.DEFAULT_HELP;
     }
-    
+
+    @Override
     protected boolean asynchronous() {
         return false;
     }
-    
+
     protected Lookup getLookup(Node[] n) {
         InstanceContent ic = new InstanceContent();
         for (Node node: n)
             ic.add(node);
-        
+
         if (n.length>0) {
             EditorCookie tc = getTextComponent(n[0]);
             if (tc != null) {
@@ -102,7 +114,7 @@ public final class ServiceRenameAction extends CookieAction {
         ic.add(new Hashtable<Object, Object>(0));
         return new AbstractLookup(ic);
     }
-    
+
     protected static EditorCookie getTextComponent(Node n) {
         DataObject dobj = n.getCookie(DataObject.class);
         if (dobj != null) {
@@ -116,6 +128,6 @@ public final class ServiceRenameAction extends CookieAction {
             }
         }
         return null;
-    }    
+    }
 }
 

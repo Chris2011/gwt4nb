@@ -24,6 +24,9 @@ import org.netbeans.api.project.Project;
 import org.netbeans.modules.web.api.webmodule.WebModule;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionRegistration;
 import org.openide.awt.StatusDisplayer;
 import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
@@ -31,6 +34,10 @@ import org.openide.windows.WindowManager;
 /**
  * Changes GWT SDK location for a project.
  */
+@ActionID(id = "org.netbeans.modules.gwt4nb.ChangeGWTSDKAction", category = "Build")
+@ActionRegistration(displayName = "#CTL_ChangeGWTSDKAction", lazy = false)
+@ActionReference(path = "Projects/Actions", position = 420)
+@NbBundle.Messages("CTL_ChangeGWTSDKAction=Change GWT SDK")
 public class ChangeGWTSDKAction extends ProjectAction {
     private static final long serialVersionUID = 1;
 
@@ -41,16 +48,19 @@ public class ChangeGWTSDKAction extends ProjectAction {
         super(true);
     }
 
+    @Override
     protected boolean isEnabledFor(Project p) {
         GWTProjectInfo pi = GWTProjectInfo.get(p);
         return pi != null && !pi.isMaven();
     }
 
+    @Override
     protected String labelFor(Project p) {
-        return NbBundle.getMessage(ChangeGWTSDKAction.class, 
+        return NbBundle.getMessage(ChangeGWTSDKAction.class,
                 "ChangeSDK"); // NOI18N
     }
 
+    @Override
     protected void perform(Project project) {
         GWTProjectInfo pi = GWTProjectInfo.get(project);
         if (pi == null || pi.isMaven())
@@ -75,7 +85,7 @@ public class ChangeGWTSDKAction extends ProjectAction {
         if (gwtVersion == null) {
             DialogDisplayer.getDefault().notify(
                     new NotifyDescriptor.Message(
-                    NbBundle.getMessage(ChangeGWTSDKAction.class, 
+                    NbBundle.getMessage(ChangeGWTSDKAction.class,
                     "InvLoc"), // NOI18N
                     NotifyDescriptor.ERROR_MESSAGE));
             return;
@@ -94,6 +104,7 @@ public class ChangeGWTSDKAction extends ProjectAction {
             this.project = project;
         }
 
+        @Override
         public Object construct() {
             WebModule webModule = WebModule.getWebModule(
                     project.getProjectDirectory());
@@ -102,9 +113,10 @@ public class ChangeGWTSDKAction extends ProjectAction {
             return null;
         }
 
+        @Override
         public void finished() {
             StatusDisplayer.getDefault().setStatusText(
-                    NbBundle.getMessage(ChangeGWTSDKAction.class, 
+                    NbBundle.getMessage(ChangeGWTSDKAction.class,
                     "LocSucc")); // NOI18N
         }
     }

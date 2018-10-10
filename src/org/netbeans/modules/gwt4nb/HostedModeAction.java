@@ -40,16 +40,28 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.CookieAction;
 
 import org.apache.tools.ant.module.api.support.ActionUtils;
+import org.openide.awt.ActionID;
+import org.openide.awt.ActionReference;
+import org.openide.awt.ActionReferences;
+import org.openide.awt.ActionRegistration;
 import org.openide.filesystems.FileUtil;
 import org.openide.util.Lookup;
 
 /**
  * Run a GWT project in hosted mode.
  */
+@ActionID(id = "org.netbeans.modules.gwt4nb.HostedModeAction", category = "Build")
+@ActionRegistration(displayName = "#CTL_HostedModeAction", lazy = false)
+@ActionReferences(value = {
+    @ActionReference(path = "Projects/Actions", position = 440),
+    @ActionReference(path = "Menu/RunProject", position = 200)}
+)
+@NbBundle.Messages("CTL_HostedModeAction=GWT Dev Mode w/o a JEE server")
 public final class HostedModeAction extends CookieAction {
     private static final long serialVersionUID = 1;
-    
+
     @SuppressWarnings("rawtypes")
+    @Override
     protected void performAction(Node[] activatedNodes) {
         Project p = activatedNodes[0].getLookup().lookup(Project.class);
         if (p == null) {
@@ -79,7 +91,7 @@ public final class HostedModeAction extends CookieAction {
                             List.class});
                     Object rc = createRunConfig.invoke(null,
                             FileUtil.toFile(p.getProjectDirectory()),
-                            p, NbBundle.getMessage(HostedModeAction.class, 
+                            p, NbBundle.getMessage(HostedModeAction.class,
                             "HostedMode"), // NOI18N
                             Collections.singletonList("gwt:debug")); // NOI18N
                     Method executeMaven = runUtils.getMethod(
@@ -105,16 +117,18 @@ public final class HostedModeAction extends CookieAction {
         }
     }
 
+    @Override
     protected int mode() {
         return CookieAction.MODE_EXACTLY_ONE;
     }
 
+    @Override
     public String getName() {
-        return NbBundle.getMessage(HostedModeAction.class,
-                "CTL_HostedModeAction"); // NOI18N
+        return Bundle.CTL_HostedModeAction(); // NOI18N
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
     protected Class<Node.Cookie>[] cookieClasses() {
         return new Class[] {
             DataObject.class
@@ -126,7 +140,7 @@ public final class HostedModeAction extends CookieAction {
         if (node == null || node.length < 1) {
             return false;
         }
-        
+
         Project p = node[0].getLookup().lookup(Project.class);
         if (p == null) {
             DataObject dataObject = node[0].getCookie(DataObject.class);
@@ -143,6 +157,7 @@ public final class HostedModeAction extends CookieAction {
         return "org/netbeans/modules/gwt4nb/resources/debug_in_hosted_mode.png"; // NOI18N
     }
 
+    @Override
     public HelpCtx getHelpCtx() {
         return HelpCtx.DEFAULT_HELP;
     }
